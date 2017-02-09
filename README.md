@@ -1,9 +1,15 @@
 # remember-me
 First flask-project using jquery, bootstrap, sqlite
 
-Install
-Install a virtualenv of python in this directory. Then install flask and flask_sqlalchemy.
-Run python command line:
-  from app import db
-  db.create_all()
-To create the database
+### Install
+Install a virtualenv of python in this directory. 
+#### Dependencies
+* flask
+* flask_sqlalchemy
+* request
+* beautifulsoup4
+  
+Run python command line: <br>
+&nbsp;&nbsp;`from app import db` <br>
+&nbsp;&nbsp;`db.create_all()`    <br>
+to create the database

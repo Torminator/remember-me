@@ -1,6 +1,8 @@
 from app import app
 from flask import render_template, g, request, json
 from sqlite3 import dbapi2 as sqlite3
+import requests
+from bs4 import BeautifulSoup
 
 def connect_db():
 	db = sqlite3.connect(app.config['DATABASE'])
@@ -27,10 +29,18 @@ def index():
 
 @app.route('/addProduct', methods=['POST'])
 def addProduct():
+	# input from the AddProduct form
 	input = request.form
+	# get the fírst image from Google Search
+	search_words = input["name"].replace(" ", "+")
+	r = requests.get("https://www.google.de/search?q=" + search_words + "&tbm=isch")
+	soup = BeautifulSoup(r.content, "html5lib")
+	images = soup.find_all("img")
+	url = images[0]["src"]
+	# insert a new product
 	db = get_db()
-	cur = db.execute("INSERT INTO product (name, description, rating, price) VALUES (?,?,?,?)", 
-		(input["name"], input["description"], input["optradio"], input["price"]))
+	cur = db.execute("INSERT INTO product (name, description, rating, price, img_url) VALUES (?,?,?,?,?)", 
+		(input["name"], input["description"], input["optradio"], input["price"], url))
 	db.commit()
 	close_db()
 	return json.dumps({"status": "OK"})
@@ -43,3 +53,4 @@ def deleteProduct():
 	db.commit()
 	close_db()
 	return json.dumps({"status": "OK"})
+

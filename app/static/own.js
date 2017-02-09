@@ -30,7 +30,6 @@ function sendDelete(value){
 	});
 }
 
-
 $(document).ready(function(){
 	$("#addProduct").click(function(){
 		$("#popup").dialog({
@@ -39,31 +38,32 @@ $(document).ready(function(){
 			buttons: {
 				"Add Product": function(){
 					if (checkInputs()){
-
-					// var data = { "data": {
-					// 		"name":  $("#name").val(),
-					// 		"descripton": $("#descripton").val(),
-					// 		"ratíng": $('input[name="optradio"]:checked').val(),
-					// 		"price": $("#price").val()
-					// 	}
-					// };
-					$.ajax({
-						url: "/addProduct",
-						data: $("#data").serialize(),
-						type: "POST",
-						success: function(response) {
-							location.reload();
-		               	 	console.log(response);
-		            	},
-		            	error: function(error) {
-		                	console.log(error);
-		            	}
-					});
-					$(this).dialog("close");	
+						$.ajax({
+							url: "/addProduct",
+							data: $("#data").serialize(),
+							type: "POST",
+							success: function(response) {
+								location.reload();
+			               	 	console.log(response);
+			            	},
+			            	error: function(error) {
+			                	console.log(error);
+			            	}
+						});
+						$(this).dialog("close");	
 					}	
 				}
 			}
 		});
 		$("#popup").css("display", "block");
+	});
+	$("tr").click(function(e){
+		$("#preview").attr("src", $(this).attr("url"));
+		$("#overlay").css("top", e.screenY-125);
+		$("#overlay").css("left", e.screenX);
+		$("#overlay").show();
+		setTimeout(function(){
+			$("#overlay").fadeOut("slow", function(){});
+		}, 1500);
 	});
 });

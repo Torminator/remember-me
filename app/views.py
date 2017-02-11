@@ -22,7 +22,7 @@ def close_db():
 @app.route('/')
 def index():
 	db = get_db()
-	cur = db.execute('SELECT * FROM product')
+	cur = db.execute('SELECT name, description, rating, price, img_url FROM product')
 	entries = cur.fetchall()
 	close_db()
 	return render_template("index.html", entries=entries)
@@ -43,13 +43,13 @@ def addProduct():
 		(input["name"], input["description"], input["optradio"], input["price"], url))
 	db.commit()
 	close_db()
-	return json.dumps({"status": "OK"})
+	return json.dumps({"status": "OK", "url": url})
 
 @app.route('/deleteProduct', methods=['POST'])
 def deleteProduct():
 	input = request.form
 	db = get_db()
-	cur = db.execute("DELETE FROM product WHERE id=?", input["value"])
+	cur = db.execute("DELETE FROM product WHERE name=?", [input["value"]])
 	db.commit()
 	close_db()
 	return json.dumps({"status": "OK"})

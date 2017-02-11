@@ -30,7 +30,22 @@ function sendDelete(value){
 	});
 }
 
+function showFadingImage(){
+	$("tr").click(function(e){
+		$("#preview").attr("src", $(this).attr("url"));
+		$("#overlay").css("top", e.screenY-125);
+		$("#overlay").css("left", e.screenX);
+		$("#overlay").show();
+		setTimeout(function(){
+			$("#overlay").fadeOut("slow", function(){});
+		}, 1500);
+	});
+}
+
 $(document).ready(function(){
+
+	showFadingImage();
+
 	$("#addProduct").click(function(){
 		$("#popup").dialog({
 			resizable: false,
@@ -43,7 +58,19 @@ $(document).ready(function(){
 							data: $("#data").serialize(),
 							type: "POST",
 							success: function(response) {
-								location.reload();
+								response = JSON.parse(response);
+								text = "<tr url=" + response["url"] + "> " + 
+									"<td>" + $("#name").val() + "</td> " +
+									"<td>" + ($("#description").val() == undefined ? "None" : $("#description").val()) + "</td> " +
+									"<td>" + $("input[name=optradio]:checked").val() + "</td>" +
+									"<td>" + $("#price").val() + "</td>" +
+									"<td>\
+										<input type='image' name='delete' src='/static/trash.jpg' height=32px width=32px \
+										value= {{row[0]}} onclick='sendDelete(this.value)'>\
+									</td>" +
+								 "</tr>";
+								$("#table > tbody").append(text);
+								showFadingImage();
 			               	 	console.log(response);
 			            	},
 			            	error: function(error) {
@@ -56,14 +83,5 @@ $(document).ready(function(){
 			}
 		});
 		$("#popup").css("display", "block");
-	});
-	$("tr").click(function(e){
-		$("#preview").attr("src", $(this).attr("url"));
-		$("#overlay").css("top", e.screenY-125);
-		$("#overlay").css("left", e.screenX);
-		$("#overlay").show();
-		setTimeout(function(){
-			$("#overlay").fadeOut("slow", function(){});
-		}, 1500);
 	});
 });

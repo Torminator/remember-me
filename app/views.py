@@ -1,5 +1,5 @@
 from app import app
-from flask import render_template, g, request, json
+from flask import render_template, g, request, json, redirect
 from sqlite3 import dbapi2 as sqlite3
 import requests
 from bs4 import BeautifulSoup
@@ -54,3 +54,15 @@ def deleteProduct():
 	close_db()
 	return json.dumps({"status": "OK"})
 
+@app.route('/login')
+def login():
+	return render_template("login.html")
+
+@app.route('/checkLogin', methods=['POST'])
+def checkLogin():
+	input = request.form
+	print(input)
+	if input["username"] == "Hello" and input["password"] == "World!":
+		return json.dumps({"status": "OK"})
+	else:
+		return json.dumps({"status": "BAD"})

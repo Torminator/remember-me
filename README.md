@@ -2,7 +2,8 @@
 First flask-project using jquery, bootstrap, sqlite
 
 ### Install
-Install a virtualenv of python in this directory. 
+Install a virtualenv of python3.x (python 2.7 does not work) in this directory.
+
 #### Dependencies
 * flask
 * flask_sqlalchemy

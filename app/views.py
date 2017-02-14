@@ -1,3 +1,5 @@
+# This Python file uses the following encoding: utf-8
+
 from app import app
 from flask import render_template, g, request, json, redirect, session
 from sqlite3 import dbapi2 as sqlite3

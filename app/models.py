@@ -23,7 +23,7 @@ class Login(db.Model):
 	password = db.Column(db.String(80), nullable=False)
 
 	def __init__(self, username, password):
-		self.userame = username
+		self.username = username
 		self.password = password
 
 	def __repr__(self):

@@ -1,8 +1,9 @@
 from app import app
-from flask import render_template, g, request, json, redirect
+from flask import render_template, g, request, json, redirect, session
 from sqlite3 import dbapi2 as sqlite3
 import requests
 from bs4 import BeautifulSoup
+
 
 def connect_db():
 	db = sqlite3.connect(app.config['DATABASE'])
@@ -18,14 +19,27 @@ def close_db():
 	if hasattr(g, 'sqlite_db'):
 		g.sqlite_db.close()
 
+def load_users():
+	db = get_db()
+	cur = db.execute("SELECT * FROM login")
+	users = cur.fetchall()
+	close_db()
+	return users
 
 @app.route('/')
+def login():
+	return render_template("login.html")
+
+@app.route('/index')
 def index():
-	db = get_db()
-	cur = db.execute('SELECT name, description, rating, price, img_url FROM product')
-	entries = cur.fetchall()
-	close_db()
-	return render_template("index.html", entries=entries)
+	if "username" in session: 
+		db = get_db()
+		cur = db.execute('SELECT name, description, rating, price, img_url FROM product')
+		entries = cur.fetchall()
+		close_db()
+		return render_template("index.html", entries=entries)
+	else:
+		return redirect("/")
 
 @app.route('/addProduct', methods=['POST'])
 def addProduct():
@@ -54,15 +68,14 @@ def deleteProduct():
 	close_db()
 	return json.dumps({"status": "OK"})
 
-@app.route('/login')
-def login():
-	return render_template("login.html")
-
 @app.route('/checkLogin', methods=['POST'])
 def checkLogin():
 	input = request.form
-	print(input)
-	if input["username"] == "Hello" and input["password"] == "World!":
-		return json.dumps({"status": "OK"})
-	else:
-		return json.dumps({"status": "BAD"})
+	users = load_users()
+	user = next(filter(lambda x: x[0] == input["username"], users), None)
+	if user != None:
+		if input["password"] == user[1]:
+			session["username"] = input["username"]
+			return json.dumps({"status": "OK"})
+
+	return json.dumps({"status": "BAD"})

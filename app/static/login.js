@@ -8,7 +8,7 @@ $(document).ready(function(){
 			success: function(response){
 				response = JSON.parse(response);
 				if (response["status"] == "OK"){
-					window.open("/", "_self");
+					window.open("/index", "_self");
 				}else{
 					alert("Wrong Username or password!");
 				}
@@ -17,5 +17,4 @@ $(document).ready(function(){
 			}
 		});
 	});
-
 });

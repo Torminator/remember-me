@@ -17,3 +17,14 @@ class Product(db.Model):
 
 	def __repr__(self):
 		return "<Product %r >" % self.name
+
+class Login(db.Model):
+	username = db.Column(db.String(80), primary_key=True)
+	password = db.Column(db.String(80), nullable=False)
+
+	def __init__(self, username, password):
+		self.userame = username
+		self.password = password
+
+	def __repr__(self):
+		return "<User %r >" % self.username

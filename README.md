@@ -7,6 +7,7 @@ Install a virtualenv of python3.x (python 2.7 does not work) in this directory.
 #### Dependencies
 * flask
 * flask_sqlalchemy
+* flask_migrate
 * request
 * beautifulsoup4
   

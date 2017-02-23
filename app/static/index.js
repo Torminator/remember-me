@@ -64,6 +64,7 @@ $(document).ready(function(){
 									"<td>" + ($("#description").val() == undefined ? "None" : $("#description").val()) + "</td> " +
 									"<td>" + $("input[name=optradio]:checked").val() + "</td>" +
 									"<td>" + $("#price").val() + "</td>" +
+									"<td>" + Date() + "</td>" +
 									"<td>\
 										<input type='image' name='delete' src='/static/trash.jpg' height=32px width=32px \
 										value= {{row[0]}} onclick='sendDelete(this.value)'>\

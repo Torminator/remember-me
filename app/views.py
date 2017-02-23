@@ -5,6 +5,7 @@ from flask import render_template, g, request, json, redirect, session
 from sqlite3 import dbapi2 as sqlite3
 import requests
 from bs4 import BeautifulSoup
+from datetime import date
 
 
 def connect_db():
@@ -36,7 +37,7 @@ def login():
 def index():
 	if "username" in session: 
 		db = get_db()
-		cur = db.execute('SELECT name, description, rating, price, img_url FROM product')
+		cur = db.execute('SELECT name, description, rating, price, date_stamp, img_url FROM product')
 		entries = cur.fetchall()
 		close_db()
 		return render_template("index.html", entries=entries)
@@ -55,8 +56,8 @@ def addProduct():
 	url = images[0]["src"]
 	# insert a new product
 	db = get_db()
-	cur = db.execute("INSERT INTO product (name, description, rating, price, img_url) VALUES (?,?,?,?,?)", 
-		(input["name"], input["description"], input["optradio"], input["price"], url))
+	cur = db.execute("INSERT INTO product (name, description, rating, price, date_stamp, img_url) VALUES (?,?,?,?,?,?)", 
+		(input["name"], input["description"], input["optradio"], input["price"], date.today(), url))
 	db.commit()
 	close_db()
 	return json.dumps({"status": "OK", "url": url})

@@ -13,11 +13,12 @@
 					<th> Description </th>
 					<th> Rating </th>
 					<th> Price </th>
+					<th> Date </th>
 				</tr>
 			<thead>
 			<tbody>
 				{% for row in entries %}
-				<tr url="{{ row[4] }}">
+				<tr url="{{ row[5] }}">
 					{% for value in row %}
 						
 						{% if loop.last %}

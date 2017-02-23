@@ -1,4 +1,5 @@
 from app import db
+from datetime import date
 
 class Product(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
@@ -6,6 +7,7 @@ class Product(db.Model):
 	description = db.Column(db.String(140))
 	rating = db.Column(db.Integer, nullable=False)
 	price = db.Column(db.Float, nullable=False)
+	date_stamp = db.Column(db.Date)
 	img_url = db.Column(db.String(1024), nullable=False)
 
 	def __init__(self, name, rating, price, img_url, description=None):
@@ -13,6 +15,7 @@ class Product(db.Model):
 		self.rating = rating
 		self.price = price
 		self.img_url = img_url
+		self.date_stamp = date.today()
 		self.description = description
 
 	def __repr__(self):

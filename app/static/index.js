@@ -42,6 +42,12 @@ function showFadingImage(){
 	});
 }
 
+function dateFormat(date){
+	var month = parseInt(date.getMonth())+1;
+	month = month < 10 ? '0'+month : month;
+	return date.getFullYear() + "-" + month + "-" + date.getDate();
+}
+
 $(document).ready(function(){
 
 	showFadingImage();
@@ -64,7 +70,7 @@ $(document).ready(function(){
 									"<td>" + ($("#description").val() == undefined ? "None" : $("#description").val()) + "</td> " +
 									"<td>" + $("input[name=optradio]:checked").val() + "</td>" +
 									"<td>" + $("#price").val() + "</td>" +
-									"<td>" + Date() + "</td>" +
+									"<td>" + dateFormat(new Date()) + "</td>" +
 									"<td>\
 										<input type='image' name='delete' src='/static/trash.jpg' height=32px width=32px \
 										value= {{row[0]}} onclick='sendDelete(this.value)'>\

@@ -45,7 +45,7 @@ function showFadingImage(){
 function dateFormat(date){
 	var month = parseInt(date.getMonth())+1;
 	month = month < 10 ? '0'+month : month;
-	return date.getFullYear() + "-" + month + "-" + date.getDate();
+	return date.getDate() + "." + month + "." + date.getFullYear();
 }
 
 $(document).ready(function(){

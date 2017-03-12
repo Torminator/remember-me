@@ -17,11 +17,13 @@
 				</tr>
 			<thead>
 			<tbody>
-				{% for row in entries %}
+				{% for i,row in enumerate(entries) %}
 				<tr url="{{ row[5] }}">
-					{% for value in row %}
+					{% for j,value in enumerate(row) %}
 						
 						{% if loop.last %}
+						{% elif j == 4 %}
+							<td>{{dates[i]}}</td>
 	        			{% else %}
 	        				<td>{{ value }}</td>
 	      				{% endif %}

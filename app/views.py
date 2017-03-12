@@ -39,8 +39,14 @@ def index():
 		db = get_db()
 		cur = db.execute('SELECT name, description, rating, price, date_stamp, img_url FROM product')
 		entries = cur.fetchall()
+		dates = []
+		for row in entries:
+			date = row[4].split("-")
+			dates.append("{}.{}.{}".format(date[2], date[1], date[0]))
+
+		print(dates)
 		close_db()
-		return render_template("index.html", entries=entries)
+		return render_template("index.html", entries=entries, dates=dates, enumerate=enumerate)
 	else:
 		return redirect("/")
 
